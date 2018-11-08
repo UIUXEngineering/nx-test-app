@@ -16,6 +16,9 @@
     ],
     "baseUrl": ".",
     "paths": {
+      "@ngrx7/todo": [
+        "libs/todo/src/index.ts"
+      ]
     }
   },
   "exclude": [

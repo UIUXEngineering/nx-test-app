@@ -125,6 +125,34 @@
           }
         }
       }
+    },
+    "todo": {
+      "root": "libs/todo",
+      "sourceRoot": "libs/todo/src",
+      "projectType": "library",
+      "prefix": "scwx",
+      "architect": {
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "libs/todo/src/test.ts",
+            "tsConfig": "libs/todo/tsconfig.spec.json",
+            "karmaConfig": "libs/todo/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/todo/tsconfig.lib.json",
+              "libs/todo/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "cli": {
