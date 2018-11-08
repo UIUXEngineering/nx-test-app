@@ -1,5 +1,6 @@
 import { async, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { EffectsModule } from '@ngrx/effects';
 import { Store, StoreModule } from '@ngrx/store';
 import {
   Entity,
@@ -10,6 +11,7 @@ import {
   TODO_FEATURE_KEY,
   TodoLoaded
 } from '@ngrx7/todo';
+import { TodoEffects } from '../../../../libs/todo/src/lib/+state/todo.effects';
 import { AppComponent } from './app.component';
 
 interface TestSchema {
@@ -31,8 +33,13 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
+
+        // Set up root first
         StoreModule.forRoot({}),
-        StoreModule.forFeature(TODO_FEATURE_KEY, todoReducer, { initialState })
+        EffectsModule.forRoot([]),
+
+        // Add features
+        StoreModule.forFeature(TODO_FEATURE_KEY, todoReducer, { initialState }),
         // EffectsModule.forFeature([TodoEffects]) // Do not load features
       ],
       providers: [ TodoFacade ],
@@ -67,17 +74,27 @@ describe('AppComponent', () => {
     );
   });
 
-  it('should get todo', () => {
+  it('should get default todo', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const comp = fixture.componentInstance;
     comp.ngOnInit();
-    store.dispatch(new TodoLoaded([ createTodo('AAA'), createTodo('BBB') ]));
-    console.log(comp.todoResult);
+
+    // Load default
+    store.dispatch(new TodoLoaded([{ id: 'Default', name: 'name-Default' }]));
+
     fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain(
-      'Welcome to my-app!'
-    );
+
+    expect(comp.todoResult).toEqual([{ id: 'Default', name: 'name-Default' }]);
+  });
+
+  it('should update todo', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const comp = fixture.componentInstance;
+    comp.ngOnInit();
+
+    store.dispatch(new TodoLoaded([ createTodo('AAA'), createTodo('BBB') ]));
+
+    fixture.detectChanges();
 
     expect(comp.todoResult).toEqual([
       { id: 'AAA', name: 'name-AAA' },

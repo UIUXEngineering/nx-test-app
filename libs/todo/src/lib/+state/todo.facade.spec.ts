@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { readFirst } from '@nrwl/nx/testing';
 
-import { EffectsModule } from '@ngrx/effects';
+import { EffectsModule, UPDATE_EFFECTS } from '@ngrx/effects';
 import { StoreModule, Store } from '@ngrx/store';
 
 import { NxModule } from '@nrwl/nx';
@@ -59,19 +59,24 @@ describe('TodoFacade', () => {
     /**
      * The initially generated facade::loadAll() returns empty array
      */
-    it('loadAll() should return empty list with loaded == true', async done => {
+    it('loadAll() should return default list with loaded == true', async done => {
       try {
         let list = await readFirst(facade.allTodo$);
         let isLoaded = await readFirst(facade.loaded$);
 
-        expect(list.length).toBe(0);
-        expect(isLoaded).toBe(false);
+        expect(list.length).toBe(1);
+        expect(isLoaded).toBe(true);
 
+        // This is no longer valid with UPDATE_EFFECTS action
         facade.loadAll();
 
         list = await readFirst(facade.allTodo$);
         isLoaded = await readFirst(facade.loaded$);
 
+        /**
+         * the facade.loadAll() method only flips the
+         * isLoaded boolean, but erases the list.
+         */
         expect(list.length).toBe(0);
         expect(isLoaded).toBe(true);
 
@@ -89,8 +94,8 @@ describe('TodoFacade', () => {
         let list = await readFirst(facade.allTodo$);
         let isLoaded = await readFirst(facade.loaded$);
 
-        expect(list.length).toBe(0);
-        expect(isLoaded).toBe(false);
+        expect(list.length).toBe(1);
+        expect(isLoaded).toBe(true);
 
         store.dispatch(new TodoLoaded([createTodo('AAA'), createTodo('BBB')]));
 

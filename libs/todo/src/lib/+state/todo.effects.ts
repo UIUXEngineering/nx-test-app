@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Effect, Actions, ofType, UPDATE_EFFECTS } from '@ngrx/effects';
 import { DataPersistence } from '@nrwl/nx';
 import { catchError, map } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -13,6 +13,15 @@ import {
 
 @Injectable()
 export class TodoEffects {
+
+  @Effect()
+  init$ = this.actions$.pipe(
+    ofType(UPDATE_EFFECTS),
+    map((action: any) => {
+      return new TodoLoaded([{ id: 'Default', name: 'name-Default' }]);
+    })
+  );
+
   @Effect()
   loadTodo$ = this.actions$.pipe(
     ofType(TodoActionTypes.LoadTodo),
