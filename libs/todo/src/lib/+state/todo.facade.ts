@@ -6,7 +6,9 @@ import { TodoPartialState } from './todo.reducer';
 import { todoQuery } from './todo.selectors';
 import { LoadTodo } from './todo.actions';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TodoFacade {
   loaded$ = this.store.pipe(select(todoQuery.getLoaded));
   allTodo$ = this.store.pipe(select(todoQuery.getAllTodo));
