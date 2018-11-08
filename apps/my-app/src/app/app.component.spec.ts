@@ -33,7 +33,7 @@ describe('AppComponent', () => {
         RouterTestingModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature(TODO_FEATURE_KEY, todoReducer, { initialState })
-        // EffectsModule.forFeature([TodoEffects])
+        // EffectsModule.forFeature([TodoEffects]) // Do not load features
       ],
       providers: [ TodoFacade ],
       declarations: [ AppComponent ]
