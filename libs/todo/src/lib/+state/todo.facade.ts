@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 
-import { TodoPartialState } from './todo.reducer';
+import { Entity, TodoPartialState } from './todo.reducer';
 import { todoQuery } from './todo.selectors';
-import { LoadTodo } from './todo.actions';
+import { LoadTodo, TodoLoaded } from './todo.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -18,5 +18,9 @@ export class TodoFacade {
 
   loadAll() {
     this.store.dispatch(new LoadTodo());
+  }
+
+  loadTodo(payload: Entity[]) {
+    this.store.dispatch(new TodoLoaded(payload));
   }
 }

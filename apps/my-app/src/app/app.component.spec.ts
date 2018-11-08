@@ -9,9 +9,7 @@ import {
   todoReducer,
   TodoState,
   TODO_FEATURE_KEY,
-  TodoLoaded
 } from '@ngrx7/todo';
-import { TodoEffects } from '../../../../libs/todo/src/lib/+state/todo.effects';
 import { AppComponent } from './app.component';
 
 interface TestSchema {
@@ -79,8 +77,8 @@ describe('AppComponent', () => {
     const comp = fixture.componentInstance;
     comp.ngOnInit();
 
-    // Load default
-    store.dispatch(new TodoLoaded([{ id: 'Default', name: 'name-Default' }]));
+    // Load default manually since not using Effect
+    facade.loadTodo([{ id: 'Default', name: 'name-Default' }]);
 
     fixture.detectChanges();
 
@@ -92,7 +90,7 @@ describe('AppComponent', () => {
     const comp = fixture.componentInstance;
     comp.ngOnInit();
 
-    store.dispatch(new TodoLoaded([ createTodo('AAA'), createTodo('BBB') ]));
+    facade.loadTodo([ createTodo('AAA'), createTodo('BBB') ]);
 
     fixture.detectChanges();
 
