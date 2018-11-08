@@ -79,9 +79,8 @@ describe('AppComponent', () => {
       'Welcome to my-app!'
     );
 
-    expect(comp.todoResult).toEqual([ { id: 'AAA', name: 'name-AAA' }, {
-      id: 'BBB',
-      name: 'name-BBB'
-    } ]);
+    expect(comp.todoResult).toEqual([
+      { id: 'AAA', name: 'name-AAA' },
+      { id: 'BBB', name: 'name-BBB' } ]);
   });
 });
